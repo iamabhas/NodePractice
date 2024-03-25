@@ -8,19 +8,19 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   username: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 
 //signup
 userSchema.statics.userSignUp = async function (username, password) {
   if (!username || !password) {
-    throw createAppError("Either email or password is missing !", 400);
+    throw createAppError("Either username or password is missing !", 400);
   }
 
   if (!validator.isStrongPassword(password)) {
@@ -47,7 +47,7 @@ userSchema.statics.userSignUp = async function (username, password) {
 //login
 userSchema.statics.userLogin = async function (username, password) {
   if (!username || !password) {
-    throw createAppError("Either email or password is missing !", 400);
+    throw createAppError("Either username or password is missing !", 400);
   }
   const user = await this.findOne({ username });
   if (!user) {
