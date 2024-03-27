@@ -27,7 +27,11 @@ const validateToken = async (req, res, next) => {
       return sendResponse(res, 401, "fail", "No user found with this ID.");
     }
 
-    req.user = { id: decoded.id, username: decoded.username };
+    req.user = {
+      id: decoded.id,
+      username: decoded.username,
+      role: decoded.role,
+    };
     next();
   } catch (err) {
     if (err.name === "JsonWebTokenError") {
