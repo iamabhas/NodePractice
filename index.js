@@ -14,7 +14,7 @@ app.use(express.json());
 app.use("/api/", [authRouter, tasksRouter]);
 
 app.get("/", (req, res) => {
-  res.json({ status: true, message: "Node JS Application" });
+  res.json({ status: "success", message: "Node JS Application" });
 });
 
 //db and server connection
