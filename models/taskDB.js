@@ -17,6 +17,10 @@ const taskSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    approved: {
+      type: Boolean,
+      default: false,
+    },
     userId: {
       type: String,
       required: true,
