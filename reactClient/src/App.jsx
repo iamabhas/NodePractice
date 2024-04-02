@@ -1,11 +1,7 @@
-import "./App.css";
-import { Typography } from "@mui/material";
+import AppRoutes from "./AppRoutes";
+
 function App() {
-  return (
-    <>
-      <Typography variant="h4">Task Manager</Typography>
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
