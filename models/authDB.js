@@ -1,26 +1,35 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import validator from "validator";
-import createAppError from "../controllers/errorController.js";
+import createAppError from "../utils/errorHandler.js";
 
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
   username: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+    enum: ["student", "teacher"],
   },
 });
 
 //signup
-userSchema.statics.userSignUp = async function (username, password) {
+userSchema.statics.userSignUp = async function (username, password, role) {
   if (!username || !password) {
-    throw createAppError("Either email or password is missing !", 400);
+    throw createAppError("Either username or password is missing !", 400);
+  }
+
+  if (!role) {
+    throw createAppError("Role must me assigned while registering !", 400);
   }
 
   if (!validator.isStrongPassword(password)) {
@@ -39,7 +48,7 @@ userSchema.statics.userSignUp = async function (username, password) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ username, password: hash });
+  const user = await this.create({ username, password: hash, role });
 
   return user;
 };
@@ -47,7 +56,7 @@ userSchema.statics.userSignUp = async function (username, password) {
 //login
 userSchema.statics.userLogin = async function (username, password) {
   if (!username || !password) {
-    throw createAppError("Either email or password is missing !", 400);
+    throw createAppError("Either username or password is missing !", 400);
   }
   const user = await this.findOne({ username });
   if (!user) {

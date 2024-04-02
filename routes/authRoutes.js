@@ -1,6 +1,6 @@
 import express from "express";
 import { SignUp, Login, Logout } from "../controllers/authController.js";
-import validateToken from "../middleware/apiAuth.js";
+import validateToken from "../middlewares/apiAuth.js";
 
 const authRouter = express.Router();
 authRouter.post("/signup", SignUp);
