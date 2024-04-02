@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/CRUD
+
+  frontend:
+    build:
+      context: ./reactClient
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+
+volumes:
+  mongo-data:
